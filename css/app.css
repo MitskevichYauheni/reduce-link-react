@@ -1,0 +1,71 @@
+.none {
+  display: none !important;
+}
+
+body {
+  background: #edeef0;
+  font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;;
+}
+.main{
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 0 10px;
+}
+.app{
+  padding-bottom: 10px;
+  border-bottom: 2px solid #fff;
+  margin-bottom: 5px;
+}
+.app h3{
+  color: #999;
+  font-weight: 300;
+}
+
+.little-input, .more-input{
+  display: flex;
+  height: 35px;
+}
+.little-input{
+  margin-bottom: 10px;
+}
+.more-input{
+  margin-top: 10px;
+}
+
+.little-input__src, .little-input__reduceLink,
+ .more-input__linkInfo, .more-input__tags{
+  width: 270px;
+  padding: 5px 15px;
+  border: 1px solid #d3d9de;
+  font-size: 14px;
+  height: 25px;
+  border-radius: 3px;
+}
+.little-input__src, .little-input__reduceLink,
+ .more-input__linkInfo{
+    margin-right: 20px;
+}
+
+.more-input{
+  margin-top: 10px;
+}
+.more__window, .show__window{
+  color: #999;
+  font-weight: 300;
+}
+
+.add__btn {
+  width: 120px;
+  height: 35px;
+  border: 1px solid #d3d9de;
+  font-size: 14px;
+
+  border-radius: 3px;
+  color: #FFF;
+  text-transform: uppercase;
+  background: #007DDC;
+}
+.add__btn:disabled {
+  background: #edeef0;
+  color: #999;
+}
