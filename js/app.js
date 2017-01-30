@@ -1,6 +1,7 @@
 var Header = React.createClass({
   getInitialState: function() {
     return {
+      firstBoot: true,
       visible: false,
       activUser: '',
       amountLinks: 0,
@@ -27,12 +28,18 @@ var Header = React.createClass({
         }
      })
     .then(function(authResult) {
-        self.setState({activUser: authResult.user , amountLinks: authResult.amountLinks, goLinks: authResult.goLinks})
+        self.setState({activUser: authResult.user , amountLinks: authResult.amountLinks, goLinks: authResult.goLinks});
       })
+  },
+  firstBoot: function(e){
+    if(this.state.firstBoot){
+      this.server();
+      this.setState({ firstBoot: false })
+    }
   },
 
   render: function() {
-    //this.server();
+    this.firstBoot();
 
     var visible = this.state.visible,
         activUser = this.state.activUser,
@@ -42,7 +49,7 @@ var Header = React.createClass({
     return(
       <div className = 'header'>
         <h3>Пользователь: {activUser}</h3>
-        <a onClick={this.onCheckRuleClick} className="header__window" href="#">
+        <a onClick={this.onCheckRuleClick} className = 'header__window' href="#">
           { (visible ? '↑' : '↓') }
         </a>
         <div className={'header__more-info ' + (visible ? '' : 'none')}>
@@ -165,7 +172,7 @@ var Add = React.createClass({
   }
 });
 
-var Link = React.createClass({
+var ReadLink = React.createClass({
     propTypes: {
       data: React.PropTypes.shape({
       click: React.PropTypes.number.isRequired,
@@ -177,44 +184,11 @@ var Link = React.createClass({
   },
   getInitialState: function() {
     return {
-      changeCheck: true,
       linkInfo: this.props.data.linkInfo,
       tags: this.props.data.tags
     };
   },
-  server: function(){
-    var self = this;
-    fetch('http://localhost:3000/link', {
-      method: 'put',
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      },
-      body: JSON.stringify({
-        src: ReactDOM.findDOMNode(this.refs.show__src).value,
-        linkInfo: ReactDOM.findDOMNode(this.refs.show__linkInfo).value,
-        tags: ReactDOM.findDOMNode(this.refs.show__tags).value
-      })
-    })
-    .then(function(response){
-      if (response.status >= 200 && response.status < 300) {
-        return response.json();
-      } else {
-          console.error('Error while fetching deficit');
-        }
-     })
-    .then(function(authResult) {
-        //self.setState({dynamicSrc: authResult.reduceLink})
-      })
-  },
-  onBtnClickHandler: function(e) {
-    this.server()
-    e.preventDefault();
-    this.setState({ changeCheck : true});
-  },
-  onFieldChange: function(fieldName, e) {
-      this.setState({[''+fieldName]: e.target.value});
-      this.setState({ changeCheck : false});
-  },
+
   render: function() {
     var src = this.props.data.src,
         reduceLink = 'http://localhost:3000/' + this.props.data.reduceLink + '/',
@@ -222,15 +196,14 @@ var Link = React.createClass({
         click = this.props.data.click,
         tags = this.state.tags,
         tagsList,
-        tagsList_input,
-        changeCheck = this.state.changeCheck;
-        console.log(linkInfo);
+        tagsList_input;
 
         if (tags.length > 0 && tags[0] != '') {
           tagsList = tags.map(function(item, index) {
+            console.log(item);
             return (
               <div key={index}>
-                <a className = 'show-link__tags__search' href="#">{item}</a>
+                <Tag data={item} />
               </div>
             )
           })
@@ -259,7 +232,264 @@ var Link = React.createClass({
               type='text'
               className='show-link__reduceLink__input'
               name='show-link__reduceLink'
-              ref='show-link__reduceLink'
+              ref='show__reduceLink'
+              value={reduceLink}
+              disabled
+            />
+          </div>
+          <div className='show-link__click'>
+            <p className='show-link__text'>Количествео кликов по ссылке: </p>
+            <input
+              type='text'
+              className='show-link__click__input'
+              name='show-link__click'
+              ref='show-link__click'
+              value={click}
+              disabled
+            />
+          </div>
+          <div className='show-link__linkInfo'>
+            <p className='show-link__text'>Информация о ссылке: </p>
+            <textarea
+              className='show-link__linkInfo__input'
+              name='show-link__linkInfo'
+              ref='show__linkInfo'
+              disabled
+            >
+            {this.props.data.linkInfo}
+            </textarea>
+          </div>
+          <div className='show-link__tags'>
+            <div className = 'show-link__tags__row'>
+              <div className = 'show-link__tags__a'>
+                <p className='show-link__text'>Tags:  </p>
+              </div>
+              <textarea
+                className='show-link__tags__input'
+                name='show-link__tags'
+                ref='show__tags'
+                disabled
+              >
+              {tagsList_input}
+              </textarea>
+            </div>
+            <div className = 'show-link__tags__row-search'>
+              {tagsList}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+});
+
+var Tag = React.createClass({
+  getInitialState: function() {
+    return {
+      visible: false,
+      searchForTag: []
+    };
+  },
+
+  serverTagSearch: function(){
+    var self = this;
+
+    fetch('http://localhost:3000/tag', {
+      method: 'post',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify({
+        tag: this.props.data
+      })
+    })
+    .then(function(response){
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      } else {
+          console.error('Error while fetching deficit');
+        }
+     })
+    .then(function(authResult) {
+        self.setState({searchForTag: authResult})
+      })
+  },
+  onBtnClickSearch: function(e){
+    this.serverTagSearch()
+    e.preventDefault();
+    this.setState({visible: true})
+  },
+  onCheckRuleClick: function(e) {
+    this.setState({visible: !this.state.visible});
+  },
+
+  render: function() {
+    var tag = this.props.data,
+        searchForTag = this.state.searchForTag,
+        visible = this.state.visible,
+        allLinks;
+
+        if (searchForTag.length > 0) {
+          allLinks = searchForTag.map(function(item, index) {
+            return (
+              <div key={index}>
+                <ReadLink data={item} />
+              </div>
+            )
+          })
+        } else {
+          allLinks = <p>Список ссылок пуст</p>
+        }
+
+
+    return(
+      <div>
+        <a className = 'show-link__tags__search' onClick={this.onBtnClickSearch} href="#" ref='show__tag'>
+          {tag}
+        </a>
+        <a onClick={this.onCheckRuleClick} className="show__window" href="#">
+          { (visible ? 'Скрыть' : '') }
+        </a>
+        <div className={'all-data ' + (visible ? '' : 'none')}>
+          {allLinks}
+        </div>
+      </div>
+    )
+  }
+});
+
+var Link = React.createClass({
+    propTypes: {
+      data: React.PropTypes.shape({
+      click: React.PropTypes.number.isRequired,
+      linkInfo: React.PropTypes.string.isRequired,
+      reduceLink: React.PropTypes.string.isRequired,
+      src: React.PropTypes.string.isRequired,
+      tags: React.PropTypes.array.isRequired
+    })
+  },
+  getInitialState: function() {
+    return {
+      changeCheck: true,
+      linkInfo: this.props.data.linkInfo,
+      tags: this.props.data.tags
+    };
+  },
+  serverLinkChange: function(){
+    var self = this;
+    fetch('http://localhost:3000/link', {
+      method: 'put',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify({
+        src: ReactDOM.findDOMNode(this.refs.show__src).value,
+        linkInfo: ReactDOM.findDOMNode(this.refs.show__linkInfo).value,
+        tags: ReactDOM.findDOMNode(this.refs.show__tags).value
+      })
+    })
+    .then(function(response){
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      } else {
+          console.error('Error while fetching deficit');
+        }
+     })
+    .then(function(authResult) {
+        //self.setState({dynamicSrc: authResult.reduceLink})
+      })
+  },
+  serverLinkDelete: function(){
+    var self = this;
+    fetch('http://localhost:3000/link', {
+      method: 'delete',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify({
+        src: ReactDOM.findDOMNode(this.refs.show__src).value,
+        reduceLink: ReactDOM.findDOMNode(this.refs.show__reduceLink).value,
+      })
+    })
+    .then(function(response){
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      } else {
+          console.error('Error while fetching deficit');
+        }
+     })
+    .then(function(authResult) {
+        //self.setState({d  ynamicSrc: authResult.reduceLink})
+      })
+  },
+  onBtnClickHandler: function(e) {
+    this.serverLinkChange()
+    e.preventDefault();
+    this.setState({ changeCheck : true});
+  },
+  onBtnClickDelete: function(e) {
+    this.serverLinkDelete()
+    e.preventDefault();
+  },
+
+  onFieldChange: function(fieldName, e) {
+      this.setState({[''+fieldName]: e.target.value});
+      this.setState({ changeCheck : false});
+  },
+  render: function() {
+    var src = this.props.data.src,
+        reduceLink = 'http://localhost:3000/' + this.props.data.reduceLink + '/',
+        linkInfo = this.state.linkInfo,
+        click = this.props.data.click,
+        tags = this.state.tags,
+        tagsList,
+        tagsList_input,
+        changeCheck = this.state.changeCheck;
+
+        if (tags.length > 0 && tags[0] != '') {
+          tagsList = tags.map(function(item, index) {
+            console.log(item);
+            return (
+              <div key={index}>
+                <Tag data={item} />
+              </div>
+            )
+          })
+          tagsList_input = tags.join(',');
+        } else {
+          tagsList = <p className='show-link__text'> Список тегов пуст</p>
+          tagsList_input = 'Список тегов пуст';
+        }
+    return(
+      <div className = 'show-link'>
+        <div className = 'show-link__btn show-link__btn__right'>
+          <button
+            className='show-link__btn__delete'
+            onClick={this.onBtnClickDelete}
+            ref='btm-delete'
+            >
+            ×
+          </button>
+        </div>
+        <div className = 'show-link__row'>
+          <div className='show-link__src'>
+            <p className='show-link__text'>Полная ссылка: </p>
+            <input
+              type='text'
+              className='show-link__src__input'
+              name='show-link__src'
+              ref='show__src'
+              value={src}
+              disabled
+            />
+          </div>
+          <div className='show-link__reduceLink'>
+            <p className='show-link__text'>Короткая ссылка: </p>
+            <input
+              type='text'
+              className='show-link__reduceLink__input'
+              name='show-link__reduceLink'
+              ref='show__reduceLink'
               value={reduceLink}
               disabled
             />
@@ -283,31 +513,38 @@ var Link = React.createClass({
               name='show-link__linkInfo'
               ref='show__linkInfo'
             >
-              {this.props.data.linkInfo}
+            {this.props.data.linkInfo}
             </textarea>
           </div>
           <div className='show-link__tags'>
-            <div className = 'show-link__tags__a'>
-              <p className='show-link__text'>Tags:  </p>
-                {tagsList}
+            <div className = 'show-link__tags__row'>
+              <div className = 'show-link__tags__a'>
+                <p className='show-link__text'>Tags:  </p>
+              </div>
+              <textarea
+                className='show-link__tags__input'
+                onChange={this.onFieldChange.bind(this, 'linkInfo')}
+                name='show-link__tags'
+                ref='show__tags'
+              >
+              {tagsList_input}
+              </textarea>
             </div>
-            <textarea
-              className='show-link__tags__input'
-              onChange={this.onFieldChange.bind(this, 'linkInfo')}
-              name='show-link__tags'
-              ref='show__tags'
-            >{tagsList_input}
-            </textarea>
+            <div className = 'show-link__tags__row-search'>
+              {tagsList}
+            </div>
           </div>
         </div>
+        <div className = 'show-link__btn'>
           <button
-            className='show-link__btn'
+            className='show-link__btn__change'
             onClick={this.onBtnClickHandler}
             ref='btm-put'
             disabled={changeCheck}
             >
             Изменить
           </button>
+          </div>
       </div>
     )
   }
@@ -316,9 +553,6 @@ var Link = React.createClass({
 var AllLinks = React.createClass({
   propTypes: {
     data: React.PropTypes.array.isRequired
-  },
-  onCheckRuleClick: function(e) {
-    this.setState({visible: !this.state.visible});
   },
 
   render: function() {
