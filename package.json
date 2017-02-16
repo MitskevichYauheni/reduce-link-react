@@ -1,20 +1,21 @@
 {
-  "name": "react-link-reduce",
-  "version": "1.0.0",
-  "description": "react-link-reduce",
-  "main": "index.html",
-  "scripts": {
-    "start": "nodemon server.js"
-  },
+  "name": "react-reduce-link",
+  "version": "1.1.0",
+  "description": "react-reduce-link",
+  "private": true,
   "author": "Zhenya Mitskevich",
-  "license": "MIT",
   "devDependencies": {
-    "express": "^4.14.0",
-    "mongoose": "^4.7.5"
+    "react-scripts": "0.8.5"
   },
   "dependencies": {
-    "express": "^4.14.0",
-    "fetch-polyfill": "^0.8.2",
-    "mongoose": "^4.7.5"
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router": "^2.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   }
 }
