@@ -6,12 +6,13 @@ class AllLinks extends React.Component {
     let data = this.props.data,
         visible = this.props.visible,
         allLinks;
+    const self = this;
 
     if (data.length > 0) {
       allLinks = data.map(function(item, index) {
         return (
           <div key={index}>
-            <Link data={item} />
+            <Link data={item} updateLinks = {self.props.updateLinks}/>
           </div>
         )
       })

@@ -1,29 +1,27 @@
 import React from 'react';
-import { Router, Route, Redirect, Link, HashHistory } from 'react-router';
-import SignIn from './Sign-in/sign-in';
-import ReduceApp from './Reduce-app/app';
-import Archive from './All-links/archive';
+import { Router, Route, Redirect, Link, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
 
+import SignIn from './components/Sign-in/sign-in';
+import ReduceApp from './components/Reduce-app/app';
+import Archive from './components/All-links/archive';
+import NotFound from './components/NotFound'
+import requireAuthentication from './containers/AuthenticatedComponent';
 
-//const SignIn = () => <div><h1>SignIn</h1><Links /></div>
-//const ReduceApp = () => <div><h1>App</h1><Links /></div>
-//const AllLinks = () => <div><h1>AllLinks</h1><Links /></div>
-
-const Links = () =>
-  <nav>
-    <Link to='/'> Home </Link>
-    <Link to='/reduce-app'> About </Link>
-    <Link to='/all-links'> Contact </Link>
-  </nav>
+const store = configureStore();
 
 class App extends React.Component {
   render() {
     return(
-      <Router history={ HashHistory } >
-          <Route path='/' component = {SignIn}></Route>
-          <Route path='/reduce-app' component = {ReduceApp}></Route>
-          <Route path='/all-links' component = {Archive}></Route>
-      </Router>
+      <Provider store={store}>
+        <Router history={ browserHistory } >
+            <Route path='/' component = {requireAuthentication(SignIn)}></Route>
+            <Route path='/reduce-app' component = {requireAuthentication(ReduceApp)}></Route>
+            <Route path='/all-links' component = {Archive}></Route>
+            <Route path='*' component={NotFound} />
+        </Router>
+      </ Provider>
     )
   }
 }

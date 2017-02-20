@@ -4,9 +4,14 @@ import Add from './add';
 import Show from './show';
 import './app.css';
 
-//const ReduceApp = () => <div><h1>App</h1></div>
-
 class ReduceApp extends React.Component {
+  // static onEnter(nextState, replace) {
+  // const isWrongPassword = window.localStorage.getItem('isWrongPassword')
+  // console.log(isWrongPassword)
+  //   if (isWrongPassword !== 'true') {
+  //     replace('/')
+  //   }
+  // }
   render() {
     console.log('render');
     return (

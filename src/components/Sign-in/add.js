@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as UserActions from '../../actions/UserActions'
 
 class Add extends React.Component {
   constructor(){
@@ -37,8 +40,9 @@ class Add extends React.Component {
         console.log(authResult);
         this.setState({ isWrongPassword: authResult.password });
         if(this.state.isWrongPassword){
-          document.location.href = "http://localhost:3001/#/reduce-app";
+          this.props.actions.login({isAuthenticated: true});
         } else {
+          this.props.actions.login({isAuthenticated: false});
           let passwordEl = ReactDOM.findDOMNode(this.refs.password);
           passwordEl.value = '';
           this.setState({passwordIsEmpty: true});
@@ -105,4 +109,14 @@ class Add extends React.Component {
   }
 }
 
-export default Add;
+function mapStateToProps() {
+  return {}
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(UserActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Add);

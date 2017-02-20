@@ -36,7 +36,7 @@ class Show extends React.Component {
         <a onClick={this.onCheckRuleClick} className="show__window">
           { (visible ? 'Скрыть' : 'Ваши ссылки') }
         </a>
-          <AllLinks data={this.state.links} visible = {this.state.visible} />
+          <AllLinks data={this.state.links} visible = {this.state.visible} updateLinks = {this.server.bind(this)}/>
       </div>
     )
   }

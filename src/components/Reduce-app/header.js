@@ -1,5 +1,8 @@
 import React from 'react';
 import { Router, Route, Redirect, Link, HashHistory } from 'react-router';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as UserActions from '../../actions/UserActions'
 
 class Header extends React.Component {
   constructor(){
@@ -12,6 +15,7 @@ class Header extends React.Component {
       goLinks: 0
     }
     this.onCheckRuleClick = this.onCheckRuleClick.bind(this);
+    this.authorizationEnd = this.authorizationEnd.bind(this);
   }
   onCheckRuleClick(e) {
     this.server();
@@ -30,6 +34,10 @@ class Header extends React.Component {
                 console.log(authResult)
       })
   }
+  authorizationEnd(e){
+    this.props.actions.authorizationEnd({isAuthenticated: false});
+  }
+
   firstBoot(e){
     if(this.state.firstBoot){
       this.server();
@@ -61,11 +69,21 @@ class Header extends React.Component {
         </div>
         <div className = 'header-links'>
           <Link className ='header-page__all-links' to='/all-links'> Все ссылки </Link>
-          <Link className ='header-page__all-links' to='/'> Выход </Link>
+          <Link className ='header-page__all-links' onClick={this.authorizationEnd} to='/'> Выход </Link>
         </div>
       </div>
     )
   }
 }
 
-export default Header;
+function mapStateToProps() {
+  return {}
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(UserActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

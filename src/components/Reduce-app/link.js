@@ -2,7 +2,6 @@ import React from 'react';
 import ReadLink from './readlink'
 
 class Link extends React.Component {
-
   constructor(props){
     super(props);
     this.state = {
@@ -46,8 +45,9 @@ class Link extends React.Component {
     })
     .then(response => response.ok ? response.json() : console.error('Error while fetching deficit'))
     .then(authResult => {
-        //self.setState({d  ynamicSrc: authResult.reduceLink})
+        //this.setState({ deleteLink: true })
       })
+    this.props.updateLinks(this);
   }
   onBtnClickHandler(e) {
     this.serverLinkChange()
@@ -99,7 +99,6 @@ class Link extends React.Component {
     let self = this;
     console.log(this.props.data)
 
-//<ReadLink data={item} />
     if (searchForTag.length > 0) {
       allLinks = searchForTag.map(function(item, index) {
         return (
@@ -112,25 +111,25 @@ class Link extends React.Component {
       allLinks = <p>Список ссылок пуст</p>
      }
 
-      if (tags.length > 0 && tags[0] != '') {
-        tagsList = tags.map(function(item, index) {
-          return (
-            <div key={index}>
-              <a className = 'show-link__tags__search' onClick={(self.onBtnClickSearch.bind(self, item))} ref='show__tag'>
-                {item}
-              </a>
-            </div>
-          )
-        })
-        tagsList_input = tags.join(',');
-      } else {
-        tagsList = <p className='show-link__text'> Список тегов пуст</p>
-        tagsList_input = 'Список тегов пуст';
-      }
+    if (tags.length > 0 && tags[0] != '') {
+      tagsList = tags.map(function(item, index) {
+        return (
+          <div key={index}>
+            <a className = 'show-link__tags__search' onClick={(self.onBtnClickSearch.bind(self, item))} ref='show__tag'>
+              {item}
+            </a>
+          </div>
+        )
+      })
+      tagsList_input = tags.join(',');
+    } else {
+      tagsList = <p className='show-link__text'> Список тегов пуст</p>
+      tagsList_input = 'Список тегов пуст';
+    }
 
     return(
       <div>
-        <div className = 'show-link'>
+        <div className = 'show-link '>
           <div className = 'show-link__btn show-link__btn__right'>
             <button
               className='show-link__btn__delete'
