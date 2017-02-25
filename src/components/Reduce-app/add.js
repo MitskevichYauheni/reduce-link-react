@@ -51,9 +51,9 @@ class Add extends React.Component {
         dynamicSrc = this.state.dynamicSrc;
 
     return (
-      <div className = 'add-link' >
+      <div className='add-link' >
         <h3> Создать короткую ссылку </h3>
-        <div className = 'little-input'>
+        <div className='little-input'>
           <input
             type='text'
             className='little-input__src'
@@ -80,7 +80,7 @@ class Add extends React.Component {
             Сократить
           </button>
         </div>
-        <div className = 'more'>
+        <div className='more'>
           <a onClick={this.onCheckRuleClick} className="more__window">
             { (visible ? 'Скрыть' : 'Подробнее') }
           </a>

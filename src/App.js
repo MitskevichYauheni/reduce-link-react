@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Redirect, Link, browserHistory } from 'react-router';
+import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
@@ -16,9 +16,9 @@ class App extends React.Component {
     return(
       <Provider store={store}>
         <Router history={ browserHistory } >
-            <Route path='/' component = {requireAuthentication(SignIn)}></Route>
-            <Route path='/reduce-app' component = {requireAuthentication(ReduceApp)}></Route>
-            <Route path='/all-links' component = {Archive}></Route>
+            <Route path='/' component={requireAuthentication(SignIn)}></Route>
+            <Route path='/reduce-app' component={requireAuthentication(ReduceApp)}></Route>
+            <Route path='/all-links' component={Archive}></Route>
             <Route path='*' component={NotFound} />
         </Router>
       </ Provider>

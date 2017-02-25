@@ -1,6 +1,6 @@
 import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
+//  LOGIN_REQUEST,
+  LOGIN_SUCCESS
 } from '../constants/User'
 
 import {
@@ -20,7 +20,7 @@ export function login(payload) {
         dispatch({
           type: ROUTING,
           payload: {
-            method: 'push',
+            method: 'replace',
             nextUrl: '/reduce-app'
           }
         })
@@ -42,7 +42,7 @@ export function authorizationEnd(payload) {
       dispatch({
         type: ROUTING,
         payload: {
-          method: 'push',
+          method: 'replace',//push
           nextUrl: '/'
         }
       })

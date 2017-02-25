@@ -20,7 +20,7 @@ class AllLinks extends React.Component {
     }
 
     return(
-      <div className = 'all-data'>
+      <div className='all-data'>
         {allLinks}
       </div>
     )

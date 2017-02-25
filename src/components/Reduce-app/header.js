@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Redirect, Link, HashHistory } from 'react-router';
+import { Link } from 'react-router';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as UserActions from '../../actions/UserActions'
@@ -54,11 +54,11 @@ class Header extends React.Component {
         goLinks = this.state.goLinks;
 
     return(
-      <div className = 'header-page'>
-        <div className = 'header-content'>
+      <div className='header-page'>
+        <div className='header-content'>
           <h3>Пользователь: {activeUser}</h3>
-          <div className = 'header-content__window'>
-            <a onClick={this.onCheckRuleClick} className = 'header-content__window__link' >
+          <div className='header-content__window'>
+            <a onClick={this.onCheckRuleClick} className='header-content__window__link' >
               { (visible ? '↑' : '↓') }
             </a>
             <div className={'header-content__window__more-info ' + (visible ? '' : 'none')}>
@@ -67,9 +67,9 @@ class Header extends React.Component {
             </div>
           </div>
         </div>
-        <div className = 'header-links'>
-          <Link className ='header-page__all-links' to='/all-links'> Все ссылки </Link>
-          <Link className ='header-page__all-links' onClick={this.authorizationEnd} to='/'> Выход </Link>
+        <div className='header-links'>
+          <Link className='header-page__all-links' to='/all-links'> Все ссылки </Link>
+          <Link className='header-page__all-links' onClick={this.authorizationEnd} to='/'> Выход </Link>
         </div>
       </div>
     )

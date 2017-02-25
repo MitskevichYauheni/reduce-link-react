@@ -58,11 +58,11 @@ const self = this;
      }
 
 
-    if (tags.length > 0 && tags[0] != '') {
+    if (tags.length > 0 && tags[0] !== '') {
       tagsList = tags.map(function(item, index) {
         return (
           <div key={index}>
-            <a className = 'show-link__tags__search' onClick={(self.onBtnClickSearch.bind(self, item))} ref='show__tag'>
+            <a className='show-link__tags__search' onClick={(self.onBtnClickSearch.bind(self, item))} ref='show__tag'>
               {item}
             </a>
           </div>
@@ -70,15 +70,15 @@ const self = this;
       })
       tagsList_input = tags.join(',');
     } else {
-      tagsList = <p className='show-link__text'> Список тегов пуст</p>
-      tagsList_input = 'Список тегов пуст';
+      tagsList=<p className='show-link__text'> Список тегов пуст</p>
+      tagsList_input='Список тегов пуст';
     }
 
 
     return(
       <div>
-        <div className = 'show-link show-link__read'>
-          <div className = 'show-link__row'>
+        <div className='show-link show-link__read'>
+          <div className='show-link__row'>
             <div className='show-link__src'>
               <p className='show-link__text'>Полная ссылка: </p>
               <input
@@ -124,8 +124,8 @@ const self = this;
               </textarea>
             </div>
             <div className='show-link__tags'>
-              <div className = 'show-link__tags__row'>
-                <div className = 'show-link__tags__a'>
+              <div className='show-link__tags__row'>
+                <div className='show-link__tags__a'>
                   <p className='show-link__text'>Tags:  </p>
                 </div>
                 <textarea
@@ -137,7 +137,7 @@ const self = this;
                 >
                 </textarea>
               </div>
-              <div className = 'show-link__tags__row-search'>
+              <div className='show-link__tags__row-search'>
                 {tagsList}
               </div>
             </div>
@@ -147,7 +147,7 @@ const self = this;
           <a onClick={this.onCheckRuleClick} className="show__window" >
             { (visibilityForTagsSearch ? 'Скрыть' : '') }
           </a>
-          <div className = {'show-link-search ' +  (visibilityForTagsSearch ? '' : 'none')}>
+          <div className={'show-link-search ' +  (visibilityForTagsSearch ? '' : 'none')}>
             {allLinks}
           </div>
         </div>

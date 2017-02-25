@@ -12,12 +12,12 @@ class AllLinks extends React.Component {
       allLinks = data.map(function(item, index) {
         return (
           <div key={index}>
-            <Link data={item} updateLinks = {self.props.updateLinks}/>
+            <Link data={item} updateLinks={self.props.updateLinks}/>
           </div>
         )
       })
     } else {
-      allLinks = <p>Список ссылок пуст</p>
+      allLinks=<p>Список ссылок пуст</p>
     }
 
     return(

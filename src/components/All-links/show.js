@@ -33,7 +33,7 @@ class Show extends React.Component {
     this.firstBoot();
 
     return(
-      <div className = 'show'>
+      <div className='show'>
         <AllLinks data={this.state.links} />
       </div>
     )

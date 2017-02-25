@@ -70,10 +70,10 @@ class Add extends React.Component {
 
     return(
       <div>
-        <div className = 'main'>
-          <div className = 'check-in'>
+        <div className='main'>
+          <div className='check-in'>
             <h3>Регистрация / Вход</h3>
-            <div className = 'add'>
+            <div className='add'>
               <input
                 type='text'
                 className='add__user'
@@ -84,14 +84,14 @@ class Add extends React.Component {
               />
               <input
                 type='password'
-                className={'add__password '+ ((isWrongPassword == false && sendPassword == true)  ? 'add__wrong-input' : '')}
+                className={'add__password '+ ((isWrongPassword === false && sendPassword === true)  ? 'add__wrong-input' : '')}
                 onChange={this.onFieldChange.bind(this, 'passwordIsEmpty')}
                 placeholder='Введите пароль'
                 name='password'
                 ref='password'
               ></input>
 
-              <p className = {'add__wrong ' + ((isWrongPassword == false && sendPassword == true)  ? '' : 'none')}> Неверный пароль </p>
+              <p className={'add__wrong ' + ((isWrongPassword === false && sendPassword === true)  ? '' : 'none')}> Неверный пароль </p>
 
               <button
                 className='add__btn'

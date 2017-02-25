@@ -26,7 +26,7 @@ body {
   margin: 0;
 }
 .header-page-right:last-child{
-  margin-right: 80px;
+  /*margin-right: 80px;*/
 }
 .header-page__all-links{
   padding: 10px 15px;

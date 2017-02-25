@@ -28,15 +28,14 @@ class Show extends React.Component {
   }
 
   render() {
-    let visible = this.state.visible,
-        links = this.state.links;
+    let visible = this.state.visible;
 
     return(
-      <div className = 'show'>
+      <div className='show'>
         <a onClick={this.onCheckRuleClick} className="show__window">
           { (visible ? 'Скрыть' : 'Ваши ссылки') }
         </a>
-          <AllLinks data={this.state.links} visible = {this.state.visible} updateLinks = {this.server.bind(this)}/>
+          <AllLinks data={this.state.links} visible={this.state.visible} updateLinks={this.server.bind(this)}/>
       </div>
     )
   }

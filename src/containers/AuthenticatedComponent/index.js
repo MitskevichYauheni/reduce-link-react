@@ -12,22 +12,22 @@ export default function requireAuthentication(Component) {
       this.checkAuth(nextProps.user)
     }
     checkAuth(user) {
-      if(Component.name == 'ReduceApp'){
+      if(Component.name === 'ReduceApp'){
         if (!user.isAuthenticated ) {
           this.props.dispatch({
             type: ROUTING,
             payload: {
-              method: 'replace',
+              method: 'push',
               nextUrl: '/'
             }
           })
         }
-      } else if(Component.name == 'SignIn'){
-        if (user.isAuthenticated == true) {
+      } else if(Component.name === 'SignIn'){
+        if (user.isAuthenticated === true) {
           this.props.dispatch({
             type: ROUTING,
             payload: {
-              method: 'replace',
+              method: 'push',
               nextUrl: '/reduce-app'
             }
           })

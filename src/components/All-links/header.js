@@ -7,10 +7,8 @@ class Header extends React.Component {
 
     return(
       <div className='header'>
-        <div className='main'>
-          <div className='header-page-right'>
-            <Link className='header-page__all-links' to='/all-links'> Все ссылки </Link>
-          </div>
+        <div className='header-page-right header-page-right-0'>
+          <Link className='header-page__all-links' to='/reduce-app'> ← Вернуться </Link>
         </div>
       </div>
     )
