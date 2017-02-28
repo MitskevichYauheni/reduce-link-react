@@ -46,8 +46,8 @@ class Link extends React.Component {
     .then(response => response.ok ? response.json() : console.error('Error while fetching deficit'))
     .then(authResult => {
         //this.setState({ deleteLink: true })
+        this.props.updateLinks(this);
       })
-    this.props.updateLinks(this);
   }
   onBtnClickHandler(e) {
     this.serverLinkChange()
@@ -55,8 +55,8 @@ class Link extends React.Component {
     this.setState({ changeCheck : true});
   }
   onBtnClickDelete(e) {
-    this.serverLinkDelete()
     e.preventDefault();
+    this.serverLinkDelete();
   }
   onBtnClickSearch(name){
     fetch('http://localhost:3000/tag', {
@@ -97,7 +97,6 @@ class Link extends React.Component {
         visibilityForTagsSearch = this.state.visibilityForTagsSearch,
         allLinks;
     let self = this;
-    console.log(this.props.data)
 
     if (searchForTag.length > 0) {
       allLinks = searchForTag.map(function(item, index) {

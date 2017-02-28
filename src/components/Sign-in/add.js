@@ -22,9 +22,6 @@ class Add extends React.Component {
   }
   onBtnClickHandler(e) {
     e.preventDefault();
-    console.log(ReactDOM.findDOMNode(this.refs.user).value);
-    console.log(ReactDOM.findDOMNode(this.refs.password).value);
-    this.setState({sendPassword: true})
     fetch('http://localhost:3000/', {
       method: 'post',
       headers: {
@@ -37,6 +34,7 @@ class Add extends React.Component {
     })
     .then(response => response.ok ? response.json() : console.error('Error while fetching deficit'))
     .then(authResult => {
+        this.setState({sendPassword: true})
         console.log(authResult);
         this.setState({ isWrongPassword: authResult.password });
         if(this.state.isWrongPassword){

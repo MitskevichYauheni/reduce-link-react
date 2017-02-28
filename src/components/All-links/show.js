@@ -22,16 +22,11 @@ class Show extends React.Component {
         this.setState({links: authResult.allLinks});
       })
   }
-  firstBoot(e){
-    if(this.state.firstBoot){
-      this.server();
-      this.setState({ firstBoot: false })
-    }
+  componentWillMount(){
+    this.server();
   }
 
   render() {
-    this.firstBoot();
-
     return(
       <div className='show'>
         <AllLinks data={this.state.links} />

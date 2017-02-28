@@ -8,7 +8,6 @@ class Header extends React.Component {
   constructor(){
     super();
     this.state = {
-      firstBoot: true,
       visible: false,
       activeUser: '',
       amountLinks: 0,
@@ -31,23 +30,28 @@ class Header extends React.Component {
     .then(response => response.ok ? response.json() : console.error('Error while fetching deficit'))
     .then(authResult => {
         this.setState({activeUser: authResult.user , amountLinks: authResult.amountLinks, goLinks: authResult.goLinks});
-                console.log(authResult)
+        console.log(authResult)
       })
   }
   authorizationEnd(e){
-    this.props.actions.authorizationEnd({isAuthenticated: false});
+    fetch('http://localhost:3000/exit', {
+      method: 'post',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+    .then(response => response.ok ? response.json() : console.error('Error while fetching deficit'))
+    .then(authResult => {
+        this.setState({activeUser: authResult.user });
+        this.props.actions.authorizationEnd({isAuthenticated: false});
+        console.log(authResult);
+      })
   }
-
-  firstBoot(e){
-    if(this.state.firstBoot){
-      this.server();
-      this.setState({ firstBoot: false })
-    }
+  componentDidMount(){
+    this.server();
   }
 
   render() {
-    this.firstBoot();
-
     let visible = this.state.visible,
         activeUser = this.state.activeUser,
         amountLinks = this.state.amountLinks,
